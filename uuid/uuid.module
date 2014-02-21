@@ -181,8 +181,37 @@ function uuid_taxonomy($op, $type, $array = NULL) {
     ),
     'vocabulary' => array(
       'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
+      'field' => 'vid',    ),
+  );
+  
+  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
+    $field = $types[$type]['field'];
+    switch ($op) {
+      case 'insert':
+        if (empty($array['uuid']) || !uuid_is_valid($array['uuid'])) {
+          $array['uuid'] = uuid_uuid();
+        }
+        db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
+          $array[$types[$type]['field']], $array['uuid']);
+        break;
+      case 'delete':
+        db_query("DELETE FROM {". $types[$type]['table'] ."} WHERE $field = %d", $array[$types[$type]['field']]);
+        break;
+    }
+  }
+}
+
+/**
+ * Implementation of hook_comment().
+ */
+        db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
+          $array[$types[$type]['field']], $array['uuid']););
+  
+  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
+    $field = $types[$type]['field'];
+    switch ($op) {
+      case 'insert':
+        ),
   );
   
   if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
@@ -207,48 +236,9 @@ function uuid_taxonomy($op, $type, $array = NULL) {
  */
         db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
           $array[$types[$type]['field']], $array['uuid']);
-        break;
-		
-		
-    ),
-    'vocabulary' => array(
-      'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
-  );
-  
-  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
-    $field = $types[$type]['field'];
-    switch ($op) {
-      case 'insert':
-        if (empty($array['uuid']) || !uuid_is_valid($array['uuid'])) {
-          $array['uuid'] = uuid_uuid();
-        }
-        db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
-          $array[$types[$type]['field']], $array['uuid']);
-        break;
-      case 'delete':
-        db_query("DELETE FROM {". $types[$type]['table'] ."} WHERE $field = %d", $array[$types[$type]['field']]);
-        break;
-    }
-  }
-}
-
-/**
- * Implementation of hook_comment().
- */
-        db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
-          $array[$types[$type]['field']], $array['uuid']);
-        break;
-		
-		
-		
-		
 		    ),
     'vocabulary' => array(
-      'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
+      'table' =    ),
   );
   
   if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
@@ -273,32 +263,6 @@ function uuid_taxonomy($op, $type, $array = NULL) {
  */
         db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
           $array[$types[$type]['field']], $array['uuid']);
-        break;
-		
-		
-		
-		
-		    ),
-    'vocabulary' => array(
-      'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
-  );
-  
-  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
-    $field = $types[$type]['field'];
-    switch ($op) {
-      case 'insert':
-        if (empty($array['uuid']) || !uuid_is_valid($array['uuid'])) {
-          $array['uuid'] = uuid_uuid();
-        }
-        db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
-          $array[$types[$type]['field']], $array['uuid']);
-        break;
-      case 'delete':
-        db_query("DELETE FROM {". $types[$type]['table'] ."} WHERE $field = %d", $array[$types[$type]['field']]);
-        break;
-    }
   }
 }
 
