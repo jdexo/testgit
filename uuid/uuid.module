@@ -203,35 +203,14 @@ function uuid_taxonomy($op, $type, $array = NULL) {
 }
 
 
-function uuid_taxonomy($op, $type, $array = NULL) {
-  $types = array(
-    'term' => array(
-      'table' => 'uuid_term_data',
-      'field' => 'tid',
-    ),
-    'vocabulary' => array(
-      'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
-  );
-  
-  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
-    $field = $types[$type]['field'];
-    switch ($op) {
-      case 'insert':
- $type, $array = NULL) {
-  $types = array(
-    'term' => array(
-      'table' => 'uuid_term_data',
-      'field' => 'tid',
-    ),
-    'vocabulary' => array(
-      'table' => 'uuid_vocabulary',
-      'field' => 'vid',
-    ),
-  );
-  
-  if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
+/**
+ * Implementation of hook_comment().
+ */
+function uuid_comment(&$a1, $op) {
+  switch ($op) {
+    // Make sure that a new entry gets made in the comments_uuid table when new content
+    // is   if (array_key_exists($type, $types) && in_array($array['vid'], variable_get('uuid_automatic_for_taxonomy', array()))) {
+
     $field = $types[$type]['field'];
     switch ($op) {
       case 'insert':
@@ -240,12 +219,14 @@ function uuid_taxonomy($op, $type, $array = NULL) {
         }
         db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
           $array[$types[$type]['field']], $array['uuid']);
+
         break;
       case 'delete':
         db_query("DELETE FROM {". $types[$type]['table'] ."} WHERE $field = %d", $array[$types[$type]['field']]);
         break;
     }
 '];
+
     switch ($op) {
       case 'insert':
         if (empty($array['uuid']) || !uuid_is_valid($array['uuid'])) {
@@ -253,6 +234,7 @@ function uuid_taxonomy($op, $type, $array = NULL) {
         }
         db_query("INSERT INTO {" . $types[$type]['table'] . "} ($field, uuid) VALUES (%d, '%s')",
           $array[$types[$type]['field']], $array['uuid']);
+
         break;
       case 'delete':
         db_query("DELETE FROM {". $types[$type]['table'] ."} WHERE $field = %d", $array[$types[$type]['field']]);
@@ -260,4 +242,5 @@ function uuid_taxonomy($op, $type, $array = NULL) {
     }
   }
 }
+
 
